@@ -1,6 +1,40 @@
 /* eslint-env node */
 'use strict';
 
+const path = require('path');
+const Funnel = require('broccoli-funnel');
+const MergeTrees = require('broccoli-merge-trees');
+const Webpack = require('broccoli-webpack');
+
+const convertToAMD = name => {
+  return {
+    using: [{ transformation: 'amd', as: name}]
+  };
+};
+
 module.exports = {
-  name: 'ember-sms-link'
+  name: 'ember-sms-link',
+
+  included() {
+    this._super.included.apply(this, arguments);
+    this.import('vendor/sms-link/index.js', convertToAMD('sms-link'));
+  },
+
+  treeForVendor(vendorTree) {
+    const smsLink = new Funnel(path.dirname(require.resolve('sms-link')), {
+      destDir: 'sms-link',
+      files: ['index.js']
+    });
+
+    const smsLinkTree = new Webpack([smsLink], {
+      entry: 'sms-link/index.js',
+      output: {
+        filename: 'sms-link/index.js',
+        library: 'sms-link',
+        libraryTarget: 'umd'
+      }
+    });
+
+    return new MergeTrees([vendorTree, smsLinkTree]);
+  }
 };
