@@ -6,12 +6,12 @@
     "ember-addon"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Chris Freeman",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "https://github.com/cafreeman/ember-sms-link",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
