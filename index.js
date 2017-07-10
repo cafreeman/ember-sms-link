@@ -15,9 +15,20 @@ const convertToAMD = name => {
 module.exports = {
   name: 'ember-sms-link',
 
-  included() {
+  included(app) {
     this._super.included.apply(this, arguments);
-    this.import('vendor/sms-link/index.js', convertToAMD('sms-link'));
+
+    while (typeof app.import !== 'function' && app.app) {
+      app = app.app
+    }
+
+    this.app = app;
+
+    const vendor = this.treePaths.vendor;
+
+    app.import(vendor + '/sms-link/index.js', convertToAMD('sms-link'));
+
+    return app;
   },
 
   treeForVendor(vendorTree) {

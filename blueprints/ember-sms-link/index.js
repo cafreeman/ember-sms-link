@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
-  description: 'ember-sms-link',
+  description: '',
 
   normalizeEntityName() {},
 
