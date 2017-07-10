@@ -46,6 +46,12 @@ module.exports = {
       }
     });
 
-    return new MergeTrees([vendorTree, smsLinkTree]);
+    const trees = [smsLinkTree];
+
+    if (vendorTree) {
+      trees.push(vendorTree);
+    }
+
+    return new MergeTrees(trees);
   }
 };
